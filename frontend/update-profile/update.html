@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Auth Client</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="update.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="update">
+      <h1>Update Profile</h1>
+      <form autocomplete="off" id="update-form">
+        <div>
+          <label for="name-update">Name</label>
+          <input id="name-update" type="text" required>
+        </div>
+        <div>
+          <label for="ichat-update">iChat</label>
+          <input id="ichat-update" type="text" required>
+        </div>
+        <div>
+          <label for="github-update">GitHub</label>
+          <input id="github-update" type="text" required>
+        </div>
+        <div>
+          <label for="id-update">Student ID</label>
+          <input id="id-update" type="number" required>
+        </div>
+        <div><button type="update">Update</button></div>
+      </form>
+    </div>
+</body>
+<script>
+  function update() {
+    alert("Profile successfully updated!");
+  }
+</script>
+
+</html>
