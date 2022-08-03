@@ -1,12 +1,15 @@
 //Include Express and CORS Modules
 const express = require('express');
+const userManager = require('./manager/user');
+const jwtManager = require('./manager/jwt');
+const { now } = require('./manager/time');
+const { UserExistsError, NoSuchUserError } = require('./manager/error');
+const createError = require('http-errors');
 
 const app = express();
 app.use(express.json());
 
-const { now } = require('./manager/time')
 
-const userManager = require('./manager/user')
 
 
 /*
@@ -21,12 +24,12 @@ const { UserExistsError } = require('./manager/ERROR.JS');
 //Setup to use CORS
 app.use(cors());
 
-
 //Setup to parse URLEncoded payload
 // REQUIRED TO READ POST>BODY, If not req.body is empty
 app.use(express.urlencoded({ extended: false }));
 
 */
+
 //Set Express app to show its running and listen to PORT
 app.get('/', (req, res) => {
     return res.send(`Server running on port ${PORT}`)
@@ -52,15 +55,22 @@ app.post('/users', (req, res, next) => {
     })
     //respond accordingly
 });
-/*
-app.post('./sessions', req, res, next) => {
+
+app.post('./sessions', (req, res, next) => {
     const { username, password } = req.body;
-    return userManager.get(username).then((password) => {
+    return userManager.compare(username, password).then(() => {
+        return jwtManager.create(username);
+    }).then((token) => {
+        return res.status(201).json({ token })
+    }).catch((error) => {
+        if (error instanceof PasswordMismatchError) {
+            return next(createError(401, error.message));
+        } else if (error instanceof NoSuchUserError) {
+            return next(createError(404, error.message));
+        } else return next(error);
+    });
+});
 
-    }).catch(next);
-}
-
-*/
 app.use((err, req, res, next) => {
     console.log(err);
     return res.status(err.status || 500).json({ error: err.message || `Unknown Error!` })

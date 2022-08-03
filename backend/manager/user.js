@@ -40,11 +40,10 @@ getUserMyUsername = (username) => {
 
 module.exports.compare = (username, password) => {
     return getUserMyUsername(username).then((hash) => {
-        return comparePassword(password, hash)
-            .then((isMatched) => {
-                if (!isMatched) {
-                    throw PasswordMismatchError(username);
-                }
-            })
+        return comparePassword(password, hash);
+    }).then((isMatched) => {
+        if (!isMatched) {
+            throw PasswordMismatchError(username);
+        } else return;
     })
 }
