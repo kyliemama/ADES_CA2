@@ -63,7 +63,7 @@ test('It should not give me jwt when wrong password', () => {
     return appRequest.post('/users').send(payload).expect(201).then(() => {
         appRequest.post('/sessions').send(differentPayload).expect(401)
     }).then((response) => {
-        expect(response.body.error).toMatch(/wrong password/)
+        expect(response.body.error).toMatch(/Wrong password/)
     });
 });
 
@@ -74,6 +74,6 @@ test('It should not give me jwt when user doesnt exist', () => {
     return appRequest.post('/users').send(payload).expect(201).then(() => {
         appRequest.post('/sessions').send(differentPayload).expect(404)
     }).then((response) => {
-        expect(response.body.error).toMatch(/not found/)
+        expect(response.body.error).toMatch(/not found!/)
     });
 });

@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const database = require('../database');
 const { POSTGRES_ERRORS } = require('../database/error');
 const { UserExistsError, NoSuchUserError, PasswordMismatchError } = require('./error');
@@ -43,7 +44,7 @@ module.exports.compare = (username, password) => {
         return comparePassword(password, hash);
     }).then((isMatched) => {
         if (!isMatched) {
-            throw PasswordMismatchError(username);
+            throw new PasswordMismatchError(username);
         } else return;
     })
 }
