@@ -1,15 +1,15 @@
 const request = require('supertest');
 const database = require('../database');
 const app = require('../app')
-/*
+
 beforeEach(() => {
-    return database.query("BEGIN")
+    return database.query("BEGIN");
 });
 
 afterEach(() => {
-    return database.query('ROLLBACK')
+    return database.query('ROLLBACK');
 });
-*/
+
 afterAll(() => {
     return database.end();
 });

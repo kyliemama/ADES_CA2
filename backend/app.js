@@ -1,12 +1,17 @@
 //Include Express and CORS Modules
 const express = require('express');
-const cors = require('cors');
-const { now } = require('./manager/time')
-const userManager = require('./manager/user')
-//Initialize Express
+
 const app = express();
+app.use(express.json());
+
+const { now } = require('./manager/time')
+
+const userManager = require('./manager/user')
+
 
 /*
+const cors = require('cors');
+
 //Setup to use JSON 
 app.use(express.json());
 //Include the module from db.js to use the Postgres Pool 
@@ -33,7 +38,35 @@ app.get('/now', (req, res) => {
     });
 });
 
+app.post('/users', (req, res, next) => {
+    const { username, password } = req.body;
+    //send to database
+    userManager.create(username, password).then(() => {
+        return res.sendStatus(201);
+    }).catch((error) => {
+        if (error instanceof UserExistsError) {
+            return next(createError(409, error.message));
+        } else {
+            return next(error);
+        }
+    })
+    //respond accordingly
+});
+/*
+app.post('./sessions', req, res, next) => {
+    const { username, password } = req.body;
+    return userManager.get(username).then((password) => {
 
+    }).catch(next);
+}
+
+*/
+app.use((err, req, res, next) => {
+    console.log(err);
+    return res.status(err.status || 500).json({ error: err.message || `Unknown Error!` })
+})
+
+module.exports = app;
 
 /*
 // POST GET METHODS
@@ -160,32 +193,3 @@ app.delete('/api/message/user', async (req, res, next) => {
 
 
 */
-app.post('/users', (req, res, next) => {
-    const { username, password } = req.body;
-    //send to database
-    userManager.create(username, password).then(() => {
-        res.sendStatus(201);
-    }).catch((error) => {
-        if (error instanceof UserExistsError) {
-            return next(createError(409, error.message));
-        } else {
-            return next(error);
-        }
-    })
-    //respond accordingly
-});
-/*
-app.post('./sessions', req, res, next) => {
-    const { username, password } = req.body;
-    return userManager.get(username).then((password) => {
-
-    }).catch(next);
-}
-
-*/
-app.use((err, req, res, next) => {
-    console.log(err);
-    return res.status(err.status || 500).json({ error })
-})
-
-module.exports = app;

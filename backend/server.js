@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const { DatabaseError } = require('pg');
 const app = require('./app');
 const { now } = require('./manager/time');

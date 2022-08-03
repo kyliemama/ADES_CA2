@@ -1,5 +1,5 @@
 module.exports.UserExistsError = class UserExistsError extends Error {
-    constructor(username, password) {
+    constructor(username) {
         super(`user ${username} already exists!`)
     }
 };

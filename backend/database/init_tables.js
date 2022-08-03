@@ -8,11 +8,10 @@ const query = `
         password VARCHAR not null
     }
 `;
-database.query(query)
-    .then((response) => {
-        return console.log(`Executed ${response.length} queries successfully`);
-    }).catch((error) => {
-        return console.error(error);
-    }).finally(() => {
-        database.end();
-    });
+database.query(query).then((response) => {
+    return console.log(`Executed ${response.length} queries successfully`);
+}).catch((error) => {
+    return console.error(error);
+}).finally(() => {
+    database.end();
+});
